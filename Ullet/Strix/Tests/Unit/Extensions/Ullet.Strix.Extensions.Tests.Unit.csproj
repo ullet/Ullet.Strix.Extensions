@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneralExtensionsTests\InstanceExecuteTests.cs" />
-    <Compile Include="GeneralExtensionsTests\InstanceExecuteWithObjectTests.cs" />
+    <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
+    <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
