@@ -8,7 +8,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensionsTests
   {
     [Test]
     [Timeout(1000)]
-    public void DoesNotExecuteOnceIfPredicateInitallyFalse()
+    public void DoesNotExecuteOnceIfPredicateInitiallyFalse()
     {
       var executed = false;
 

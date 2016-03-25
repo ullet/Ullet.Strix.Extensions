@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegateExtensionsTests\ActionDoWhileTests.cs" />
+    <Compile Include="DelegateExtensionsTests\FuncTinoutWhileTests.cs" />
     <Compile Include="DelegateExtensionsTests\FuncToutDoWhileTests.cs" />
     <Compile Include="DelegateExtensionsTests\FuncTinoutDoWhileTests.cs" />
     <Compile Include="DelegateExtensionsTests\FuncToutWhileTests.cs" />
