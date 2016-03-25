@@ -1,3 +1,9 @@
+/*
+ * Written by Trevor Barnett, <mr.ullet@gmail.com>, 2016
+ * Released to the Public Domain.  See http://unlicense.org/ or the
+ * UNLICENSE file accompanying this source code.
+ */
+
 using System;
 
 namespace Ullet.Strix.Extensions
@@ -194,6 +200,34 @@ namespace Ullet.Strix.Extensions
         result = expression(result);
       }
       return executed ? result : defaultResult;
+    }
+
+    /// <summary>
+    /// Execute <paramref name="action"/> while <paramref name="predicate"/> is
+    /// false.
+    /// </summary>
+    /// <param name="action">
+    /// <see cref="Action"/> to execute in each iteration of the loop.
+    /// </param>
+    /// <param name="predicate">
+    /// <see cref="Func{TResult}"/> to test for termination of loop. Loop
+    /// exists when predicate function evaluates to true.
+    /// </param>
+    /// <remarks>
+    /// Since <paramref name="action"/> has neither input nor output, and
+    /// <paramref name="predicate"/> also takes no input, the loop is entirely
+    /// dependent on an external environment, both for input and to
+    /// be mutated to output some value, i.e. this is a very non-functional
+    /// extension method where side-effects are central to it doing anything
+    /// useful. The value of this method is questionable.
+    /// </remarks>
+    public static void While(this Action action, Func<bool> predicate)
+    {
+      // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+      while (predicate())
+      {
+        action();
+      }
     }
   }
 }

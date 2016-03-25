@@ -137,9 +137,6 @@ namespace Ullet.Strix.Extensions
     /// <see cref="Func{TResult}"/> to test for termination of loop. Loop
     /// exists when predicate function evaluates to true.
     /// </param>
-    /// <returns>
-    /// The value returned from expression in the final iteration of the loop.
-    /// </returns>
     /// <remarks>
     /// Since <paramref name="action"/> has neither input nor output, and
     /// <paramref name="predicate"/> also takes no input, the loop is entirely
