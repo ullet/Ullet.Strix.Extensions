@@ -135,5 +135,55 @@ namespace Ullet.Strix.Extensions
       } while (predicate(result));
       return result;
     }
+
+    /// <summary>
+    /// Execute <paramref name="action"/> at least once until
+    /// <paramref name="predicate"/> is true.
+    /// </summary>
+    /// <param name="action">
+    /// <see cref="Action"/> to execute in each iteration of the loop.
+    /// </param>
+    /// <param name="predicate">
+    /// <see cref="Func{TResult}"/> to test for termination of loop. Loop
+    /// exists when predicate function evaluates to true.
+    /// </param>
+    /// <returns>
+    /// The value returned from expression in the final iteration of the loop.
+    /// </returns>
+    /// <remarks>
+    /// Since <paramref name="action"/> has neither input nor output, and
+    /// <paramref name="predicate"/> also takes no input, the loop is entirely
+    /// dependent on an external environment, both for input and to
+    /// be mutated to output some value, i.e. this is a very non-functional
+    /// extension method where side-effects are central to it doing anything
+    /// useful. The value of this method is questionable.
+    /// </remarks>
+    /// <example>
+    /// Generate a file name that doesn't already exist on the file system.
+    /// <code>
+    /// <![CDATA[
+    /// string fileName = null;
+    /// Action fileNameGenerator = () => fileName = Path.GetRandomFileName();
+    /// fileNameGenerator.DoWhile(() => File.Exists(fileName));
+    /// ]]>
+    /// </code>
+    /// This could instead be written simpler as a do..while() loop:
+    /// <code>
+    /// <![CDATA[
+    /// string fileName;
+    /// do {
+    ///   fileName = Path.GetRandomFileName();
+    /// } while (File.Exists(fileName));
+    /// ]]>
+    /// </code>
+    /// </example>
+    public static void DoWhile(this Action action, Func<bool> predicate)
+    {
+      do
+      {
+        action();
+        // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
+      } while (predicate());
+    }
   }
 }
