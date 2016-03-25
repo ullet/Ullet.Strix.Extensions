@@ -46,6 +46,7 @@
     <Compile Include="DelegateExtensionsTests\ActionDoWhileTests.cs" />
     <Compile Include="DelegateExtensionsTests\FuncToutDoWhileTests.cs" />
     <Compile Include="DelegateExtensionsTests\FuncTinoutDoWhileTests.cs" />
+    <Compile Include="DelegateExtensionsTests\FuncToutWhileTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

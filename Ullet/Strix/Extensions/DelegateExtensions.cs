@@ -185,5 +185,84 @@ namespace Ullet.Strix.Extensions
         // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
       } while (predicate());
     }
+
+    /// <summary>
+    /// Evaluate <paramref name="expression"/> while
+    /// <paramref name="predicate"/> is false. May execute the expression zero
+    /// times if predicate is immediately true. Result of each evaluation of
+    /// epression is passed as input to the predicate. First input for predicate
+    /// is default of <typeparamref name="T"/>. Returns the final return
+    /// value from expression or default if never executed.
+    /// </summary>
+    /// <typeparam name="T">
+    /// Type returned by <paramref name="expression"/>.
+    /// </typeparam>
+    /// <param name="expression">
+    /// <see cref="Func{TResult}"/> to execute in each iteration of the loop.
+    /// </param>
+    /// <param name="predicate">
+    /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
+    /// exists when predicate function evaluates to true. Takes as input the
+    /// return value of <paramref name="expression"/> for each iteration.
+    /// </param>
+    /// <returns>
+    /// The value returned from expression in the final iteration of the loop.
+    /// </returns>
+    /// <remarks>
+    /// Since <paramref name="expression"/> does not have any input parameters,
+    /// the function must be dependent on some external input in order for its
+    /// result to vary with each iteration of the loop.  This external input
+    /// could be, for example, a captured variable in a closure, or read from a
+    /// file system.
+    /// </remarks>
+    public static T While<T>(this Func<T> expression, Func<T, bool> predicate)
+    {
+      return expression.While(default(T), predicate);
+    }
+
+    /// <summary>
+    /// Evaluate <paramref name="expression"/> while
+    /// <paramref name="predicate"/> is false. May execute the expression zero
+    /// times if predicate is immediately true. Result of each evaluation of
+    /// epression is passed as input to the predicate. First input for predicate
+    /// is the specified <paramref name="defaultResult"/>. Returns the final
+    /// return value from expression or <paramref name="defaultResult"/> if
+    /// never executed.
+    /// </summary>
+    /// <typeparam name="T">
+    /// Type returned by <paramref name="expression"/>.
+    /// </typeparam>
+    /// <param name="expression">
+    /// <see cref="Func{TResult}"/> to execute in each iteration of the loop.
+    /// </param>
+    /// <param name="defaultResult">
+    /// Default value for initial predicate call and return value if
+    /// <paramref name="expression"/> is never evaluated.
+    /// </param>
+    /// <param name="predicate">
+    /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
+    /// exists when predicate function evaluates to true. Takes as input the
+    /// return value of <paramref name="expression"/> for each iteration.
+    /// </param>
+    /// <returns>
+    /// The value returned from expression in the final iteration of the loop.
+    /// </returns>
+    /// <remarks>
+    /// Since <paramref name="expression"/> does not have any input parameters,
+    /// the function must be dependent on some external input in order for its
+    /// result to vary with each iteration of the loop.  This external input
+    /// could be, for example, a captured variable in a closure, or read from a
+    /// file system.
+    /// </remarks>
+    public static T While<T>(
+      this Func<T> expression, T defaultResult, Func<T, bool> predicate)
+    {
+      var result = defaultResult;
+      while (predicate(result))
+      {
+        result = expression();
+      }
+      return result;
+    }
   }
 }
