@@ -77,12 +77,7 @@ namespace Ullet.Strix.Extensions
     public static T While<T>(
       this Func<T> expression, T defaultResult, Func<T, bool> predicate)
     {
-      var result = defaultResult;
-      while (predicate(result))
-      {
-        result = expression();
-      }
-      return result;
+      return ((Func<T, T>) (t => expression())).While(defaultResult, predicate);
     }
 
     /// <summary>
@@ -189,6 +184,8 @@ namespace Ullet.Strix.Extensions
       T defaultResult,
       Func<T, bool> predicate)
     {
+      // Could rewrite this in terms of one of the other While extension methods
+      // but it would be less readable!
       var executed = false;
       var result = initial;
       while (predicate(result))

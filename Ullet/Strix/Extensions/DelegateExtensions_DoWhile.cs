@@ -64,12 +64,7 @@ namespace Ullet.Strix.Extensions
     /// </example>
     public static T DoWhile<T>(this Func<T> expression, Func<T, bool> predicate)
     {
-      T result;
-      do
-      {
-        result = expression();
-      } while (predicate(result));
-      return result;
+      return ((Func<T, T>) (t => expression())).DoWhile(predicate);
     }
 
     /// <summary>
@@ -128,12 +123,7 @@ namespace Ullet.Strix.Extensions
     public static T DoWhile<T>(
       this Func<T, T> expression, T initial, Func<T, bool> predicate)
     {
-      var result = initial;
-      do
-      {
-        result = expression(result);
-      } while (predicate(result));
-      return result;
+      return expression.While(expression(initial), predicate);
     }
 
     /// <summary>
