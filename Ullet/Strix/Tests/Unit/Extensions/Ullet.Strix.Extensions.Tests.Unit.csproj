@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DelegateExtensionsTests\DoWhileTests.cs" />
+    <Compile Include="DelegateExtensionsTests\FuncToutDoWhileTests.cs" />
+    <Compile Include="DelegateExtensionsTests\FuncTinoutDoWhileTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

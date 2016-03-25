@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Written by Trevor Barnett, <mr.ullet@gmail.com>, 2016
+ * Released to the Public Domain.  See http://unlicense.org/ or the
+ * UNLICENSE file accompanying this source code.
+ */
+
+using System;
 
 namespace Ullet.Strix.Extensions
 {
@@ -62,6 +68,70 @@ namespace Ullet.Strix.Extensions
       do
       {
         result = expression();
+      } while (predicate(result));
+      return result;
+    }
+
+    /// <summary>
+    /// Evaluate <paramref name="expression"/> at least once until
+    /// <paramref name="predicate"/> is true. Result of each evaluation of
+    /// epression is passed as input to the predicate and the next evalutation
+    /// of the expression. Default of <typeparamref name="T"/> is passed to the
+    /// first evaluation of expression. Returns the final return value from
+    /// expression.
+    /// </summary>
+    /// <typeparam name="T">
+    /// Type of input and return value of <paramref name="expression"/>.
+    /// </typeparam>
+    /// <param name="expression">
+    /// <see cref="Func{T,TResult}"/> to execute in each iteration of the loop.
+    /// </param>
+    /// <param name="predicate">
+    /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
+    /// exists when predicate function evaluates to true. Takes as input the
+    /// return value of <paramref name="expression"/> for each iteration.
+    /// </param>
+    /// <returns>
+    /// The value returned from expression in the final iteration of the loop.
+    /// </returns>
+    public static T DoWhile<T>(
+      this Func<T, T> expression, Func<T, bool> predicate)
+    {
+      return expression.DoWhile(default(T), predicate);
+    }
+
+    /// <summary>
+    /// Evaluate <paramref name="expression"/> at least once until
+    /// <paramref name="predicate"/> is true. Result of each evaluation of
+    /// epression is passed as input to the predicate and the next evalutation
+    /// of the expression. The specified initial value is passed to the first
+    /// evaluation of expression. Returns the final return value from the
+    /// expression.
+    /// </summary>
+    /// <typeparam name="T">
+    /// Type of input and return value of <paramref name="expression"/>.
+    /// </typeparam>
+    /// <param name="expression">
+    /// <see cref="Func{T,TResult}"/> to execute in each iteration of the loop.
+    /// </param>
+    /// <param name="initial">
+    /// Initial value passed to the first call of <paramref name="expression"/>.
+    /// </param>
+    /// <param name="predicate">
+    /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
+    /// exists when predicate function evaluates to true. Takes as input the
+    /// return value of <paramref name="expression"/> for each iteration.
+    /// </param>
+    /// <returns>
+    /// The value returned from expression in the final iteration of the loop.
+    /// </returns>
+    public static T DoWhile<T>(
+      this Func<T, T> expression, T initial, Func<T, bool> predicate)
+    {
+      var result = initial;
+      do
+      {
+        result = expression(result);
       } while (predicate(result));
       return result;
     }

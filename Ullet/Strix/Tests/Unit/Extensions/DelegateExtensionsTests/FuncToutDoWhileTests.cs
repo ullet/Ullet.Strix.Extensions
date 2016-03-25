@@ -1,35 +1,41 @@
-﻿using System;
+﻿/*
+ * Written by Trevor Barnett, <mr.ullet@gmail.com>, 2016
+ * Released to the Public Domain.  See http://unlicense.org/ or the
+ * UNLICENSE file accompanying this source code.
+ */
+
+using System;
 using NUnit.Framework;
 
 namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensionsTests
 {
   [TestFixture]
-  public class DoWhileTests
+  public class FuncToutDoWhileTests
   {
     [Test]
-    [Timeout(100)]
+    [Timeout(1000)]
     public void ExecutesAtLeastOnce()
     {
       var executed = false;
 
-      ((Func<bool>)(() => executed = true)).DoWhile(x => false);
+      ((Func<bool>) (() => executed = true)).DoWhile(x => false);
 
       Assert.That(executed, Is.True);
     }
 
     [Test]
-    [Timeout(100)]
+    [Timeout(1000)]
     public void ExecutesUntilConditionTrue()
     {
       var executionCount = 0;
 
-      ((Func<int>)(() => executionCount++)).DoWhile(x => executionCount < 10);
+      ((Func<int>) (() => executionCount++)).DoWhile(x => executionCount < 10);
 
       Assert.That(executionCount, Is.EqualTo(10));
     }
 
     [Test]
-    [Timeout(100)]
+    [Timeout(1000)]
     public void ReturnsLastResultOfExpression()
     {
       var executionCount = 0;
@@ -44,12 +50,12 @@ namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensionsTests
     }
 
     [Test]
-    [Timeout(100)]
+    [Timeout(1000)]
     public void PassesResultOfExpressionToPredicate()
     {
       var executionCount = 0;
 
-      ((Func<int>)(() => ++executionCount)).DoWhile(x => x < 10);
+      ((Func<int>) (() => ++executionCount)).DoWhile(x => x < 10);
 
       Assert.That(executionCount, Is.EqualTo(10));
     }
