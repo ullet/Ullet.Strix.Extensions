@@ -60,6 +60,7 @@
     <Compile Include="DelegateExtensions\FuncToutTests\WhileTests.cs" />
     <Compile Include="DelegateExtensions\FuncToutTests\RepeatTests.cs" />
     <Compile Include="DelegateExtensions\FuncToutTests\RepeatWhileTests.cs" />
+    <Compile Include="DelegateExtensions\NotTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
