@@ -44,13 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegateExtensions\ActionTests\RepeatWhileTests.cs" />
+    <Compile Include="DelegateExtensions\ActionTests\UntilTests.cs" />
     <Compile Include="DelegateExtensions\ActionTests\WhileTests.cs" />
     <Compile Include="DelegateExtensions\ActionTests\DoWhileTests.cs" />
     <Compile Include="DelegateExtensions\ActionTests\RepeatTests.cs" />
+    <Compile Include="DelegateExtensions\FuncTinoutTests\UntilTests.cs" />
     <Compile Include="DelegateExtensions\FuncTinoutTests\WhileTests.cs" />
     <Compile Include="DelegateExtensions\FuncToutTests\DoWhileTests.cs" />
     <Compile Include="DelegateExtensions\FuncTinoutTests\DoWhileTests.cs" />
     <Compile Include="DelegateExtensions\FuncTinoutTests\RepeatWhileTests.cs" />
+    <Compile Include="DelegateExtensions\FuncToutTests\UntilTests.cs" />
     <Compile Include="DelegateExtensions\FuncToutTests\WhileTests.cs" />
     <Compile Include="DelegateExtensions\FuncToutTests\RepeatTests.cs" />
     <Compile Include="DelegateExtensions\FuncToutTests\RepeatWhileTests.cs" />

@@ -11,7 +11,7 @@ namespace Ullet.Strix.Extensions
   public static partial class DelegateExtensions
   {
     /// <summary>
-    /// Evaluate <paramref name="expression"/> while
+    /// Evaluate <paramref name="expression"/> until
     /// <paramref name="predicate"/> is true. May execute the expression zero
     /// times if predicate is immediately true. Result of each evaluation of
     /// epression is passed as input to the predicate. First input for predicate
@@ -26,7 +26,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to false. Takes as input the
+    /// exists when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -40,13 +40,13 @@ namespace Ullet.Strix.Extensions
     /// could be, for example, a captured variable in a closure, or read from a
     /// file system.
     /// </remarks>
-    public static T While<T>(this Func<T> expression, Func<T, bool> predicate)
+    public static T Until<T>(this Func<T> expression, Func<T, bool> predicate)
     {
-      return expression.While(default(T), predicate);
+      return expression.While(Not(predicate));
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> while
+    /// Evaluate <paramref name="expression"/> until
     /// <paramref name="predicate"/> is true. May execute the expression zero
     /// times if predicate is immediately true. Result of each evaluation of
     /// epression is passed as input to the predicate. First input for predicate
@@ -66,7 +66,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to false. Takes as input the
+    /// exists when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -80,14 +80,14 @@ namespace Ullet.Strix.Extensions
     /// could be, for example, a captured variable in a closure, or read from a
     /// file system.
     /// </remarks>
-    public static T While<T>(
+    public static T Until<T>(
       this Func<T> expression, T defaultResult, Func<T, bool> predicate)
     {
-      return ((Func<T, T>) (t => expression())).While(defaultResult, predicate);
+      return expression.While(defaultResult, Not(predicate));
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> while
+    /// Evaluate <paramref name="expression"/> until
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. The default of <typeparamref name="T"/> is passed to
@@ -103,21 +103,21 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to false. Takes as input the
+    /// exists when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
     /// The value returned from expression in the final iteration of the loop or
     /// default of <typeparamref name="T"/> if expression never evaluated.
     /// </returns>
-    public static T While<T>(
+    public static T Until<T>(
       this Func<T, T> expression, Func<T, bool> predicate)
     {
-      return expression.While(default(T), predicate);
+      return expression.While(Not(predicate));
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> while
+    /// Evaluate <paramref name="expression"/> until
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. <paramref name="initial"/> is passed to the predicate
@@ -137,21 +137,21 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to false. Takes as input the
+    /// exists when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
     /// The value returned from expression in the final iteration of the loop or
     /// <paramref name="initial"/> if expression never evaluated.
     /// </returns>
-    public static T While<T>(
+    public static T Until<T>(
       this Func<T, T> expression, T initial, Func<T, bool> predicate)
     {
-      return expression.While(initial, initial, predicate);
+      return expression.While(initial, Not(predicate));
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> while
+    /// Evaluate <paramref name="expression"/> until
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. <paramref name="initial"/> is passed to the predicate
@@ -172,33 +172,24 @@ namespace Ullet.Strix.Extensions
     /// <param name="defaultResult">Default return value.</param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to false. Takes as input the
+    /// exists when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
     /// The value returned from expression in the final iteration of the loop or
     /// <paramref name="initial"/> if expression never evaluated.
     /// </returns>
-    public static T While<T>(
+    public static T Until<T>(
       this Func<T, T> expression,
       T initial,
       T defaultResult,
       Func<T, bool> predicate)
     {
-      // Could rewrite this in terms of one of the other While extension methods
-      // but it would be less readable!
-      var executed = false;
-      var result = initial;
-      while (predicate(result))
-      {
-        executed = true;
-        result = expression(result);
-      }
-      return executed ? result : defaultResult;
+      return expression.While(initial, defaultResult, Not(predicate));
     }
 
     /// <summary>
-    /// Execute <paramref name="action"/> while <paramref name="predicate"/> is
+    /// Execute <paramref name="action"/> until <paramref name="predicate"/> is
     /// true.
     /// </summary>
     /// <param name="action">
@@ -206,7 +197,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to false.
+    /// exists when predicate function evaluates to true.
     /// </param>
     /// <remarks>
     /// Since <paramref name="action"/> has neither input nor output, and
@@ -220,23 +211,13 @@ namespace Ullet.Strix.Extensions
     /// One use is to define a readable "Repeat N times" function:
     /// <code>
     /// <![CDATA[
-    /// action.While(() => numberOfTimes-- > 0);
+    /// action.Until(() => numberOfTimes-- <= 0);
     /// ]]>
     /// </code>
-    /// But then instead could easily written as:
-    /// <code>
-    /// <![CDATA[
-    /// while (numberOfTimes-- > 0)
-    ///   action;
-    /// ]]>
-    /// </code>
-    /// (Can even put it all on one line if you like that sort of thing.)
     /// </example>
-    public static void While(this Action action, Func<bool> predicate)
+    public static void Until(this Action action, Func<bool> predicate)
     {
-      // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
-      while (predicate())
-        action();
+      action.While(Not(predicate));
     }
   }
 }
