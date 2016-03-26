@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DelegateExtensions_DoUntil.cs" />
     <Compile Include="DelegateExtensions_Not.cs" />
     <Compile Include="DelegateExtensions_Repeat.cs" />
     <Compile Include="DelegateExtensions_Until.cs" />

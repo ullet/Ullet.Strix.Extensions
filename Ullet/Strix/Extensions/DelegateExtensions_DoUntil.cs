@@ -11,7 +11,7 @@ namespace Ullet.Strix.Extensions
   public static partial class DelegateExtensions
   {
     /// <summary>
-    /// Evaluate <paramref name="expression"/> at least once while
+    /// Evaluate <paramref name="expression"/> at least once until
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate. Returns the final return
     /// value from expression.
@@ -24,7 +24,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exits when predicate function evaluates to false. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -62,13 +62,13 @@ namespace Ullet.Strix.Extensions
     /// ]]>
     /// </code>
     /// </example>
-    public static T DoWhile<T>(this Func<T> expression, Func<T, bool> predicate)
+    public static T DoUntil<T>(this Func<T> expression, Func<T, bool> predicate)
     {
-      return ((Func<T, T>) (t => expression())).DoWhile(predicate);
+      return expression.DoWhile(Not(predicate));
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> at least once while
+    /// Evaluate <paramref name="expression"/> at least once until
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. Default of <typeparamref name="T"/> is passed to the
@@ -83,20 +83,20 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exits when predicate function evaluates to false. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
     /// The value returned from expression in the final iteration of the loop.
     /// </returns>
-    public static T DoWhile<T>(
+    public static T DoUntil<T>(
       this Func<T, T> expression, Func<T, bool> predicate)
     {
-      return expression.DoWhile(default(T), predicate);
+      return expression.DoWhile(Not(predicate));
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> at least once while
+    /// Evaluate <paramref name="expression"/> at least once until
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. The specified initial value is passed to the first
@@ -114,20 +114,20 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exits when predicate function evaluates to false. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
     /// The value returned from expression in the final iteration of the loop.
     /// </returns>
-    public static T DoWhile<T>(
+    public static T DoUntil<T>(
       this Func<T, T> expression, T initial, Func<T, bool> predicate)
     {
-      return expression.While(expression(initial), predicate);
+      return expression.DoWhile(initial, Not(predicate));
     }
 
     /// <summary>
-    /// Execute <paramref name="action"/> at least once while
+    /// Execute <paramref name="action"/> at least once until
     /// <paramref name="predicate"/> is true.
     /// </summary>
     /// <param name="action">
@@ -135,7 +135,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{TResult}"/> to test for termination of loop. Loop
-    /// exits when predicate function evaluates to false.
+    /// exits when predicate function evaluates to true.
     /// </param>
     /// <remarks>
     /// Since <paramref name="action"/> has neither input nor output, and
@@ -145,13 +145,9 @@ namespace Ullet.Strix.Extensions
     /// extension method where side-effects are central to it doing anything
     /// useful.
     /// </remarks>
-    public static void DoWhile(this Action action, Func<bool> predicate)
+    public static void DoUntil(this Action action, Func<bool> predicate)
     {
-      do
-      {
-        action();
-        // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
-      } while (predicate());
+      action.DoWhile(Not(predicate));
     }
   }
 }

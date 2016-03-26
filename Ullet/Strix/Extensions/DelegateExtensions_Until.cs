@@ -26,7 +26,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to true. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -66,7 +66,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to true. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -103,7 +103,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to true. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -137,7 +137,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to true. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -172,7 +172,7 @@ namespace Ullet.Strix.Extensions
     /// <param name="defaultResult">Default return value.</param>
     /// <param name="predicate">
     /// <see cref="Func{T,TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to true. Takes as input the
+    /// exits when predicate function evaluates to true. Takes as input the
     /// return value of <paramref name="expression"/> for each iteration.
     /// </param>
     /// <returns>
@@ -197,7 +197,7 @@ namespace Ullet.Strix.Extensions
     /// </param>
     /// <param name="predicate">
     /// <see cref="Func{TResult}"/> to test for termination of loop. Loop
-    /// exists when predicate function evaluates to true.
+    /// exits when predicate function evaluates to true.
     /// </param>
     /// <remarks>
     /// Since <paramref name="action"/> has neither input nor output, and
