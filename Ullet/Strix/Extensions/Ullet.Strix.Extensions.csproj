@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegateExtensions_DoUntil.cs" />
+    <Compile Include="DelegateExtensions_RepeatUntil.cs" />
     <Compile Include="DelegateExtensions_ToFunc.cs" />
     <Compile Include="DelegateExtensions_ToPredicate.cs" />
     <Compile Include="DelegateExtensions_Not.cs" />
