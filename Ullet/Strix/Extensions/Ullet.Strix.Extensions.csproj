@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DelegateExtensions_Repeat.cs" />
     <Compile Include="DelegateExtensions_While.cs" />
     <Compile Include="DelegateExtensions_DoWhile.cs" />
     <Compile Include="GeneralExtensions.cs" />

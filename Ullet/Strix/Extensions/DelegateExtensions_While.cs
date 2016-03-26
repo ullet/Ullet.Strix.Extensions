@@ -219,8 +219,24 @@ namespace Ullet.Strix.Extensions
     /// dependent on an external environment, both for input and to
     /// be mutated to output some value, i.e. this is a very non-functional
     /// extension method where side-effects are central to it doing anything
-    /// useful. The value of this method is questionable.
+    /// useful.
     /// </remarks>
+    /// <example>
+    /// One use is to define a readable "Repeat N times" function:
+    /// <code>
+    /// <![CDATA[
+    /// action.While(() => numberOfTimes-- > 0);
+    /// ]]>
+    /// </code>
+    /// But then instead could easily written as:
+    /// <code>
+    /// <![CDATA[
+    /// while (numberOfTimes-- > 0)
+    ///   action;
+    /// ]]>
+    /// </code>
+    /// (Can even put it all on one line if you like that sort of thing.)
+    /// </example>
     public static void While(this Action action, Func<bool> predicate)
     {
       // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
