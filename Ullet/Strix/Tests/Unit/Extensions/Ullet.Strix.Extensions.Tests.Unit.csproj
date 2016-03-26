@@ -43,13 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DelegateExtensionsTests\ActionWhileTests.cs" />
-    <Compile Include="DelegateExtensionsTests\ActionDoWhileTests.cs" />
-    <Compile Include="DelegateExtensionsTests\FuncTinoutWhileTests.cs" />
-    <Compile Include="DelegateExtensionsTests\FuncToutDoWhileTests.cs" />
-    <Compile Include="DelegateExtensionsTests\FuncTinoutDoWhileTests.cs" />
-    <Compile Include="DelegateExtensionsTests\FuncToutWhileTests.cs" />
-    <Compile Include="DelegateExtensionsTests\RepeatTests.cs" />
+    <Compile Include="DelegateExtensions\ActionTests\RepeatWhileTests.cs" />
+    <Compile Include="DelegateExtensions\ActionTests\WhileTests.cs" />
+    <Compile Include="DelegateExtensions\ActionTests\DoWhileTests.cs" />
+    <Compile Include="DelegateExtensions\ActionTests\RepeatTests.cs" />
+    <Compile Include="DelegateExtensions\FuncTinoutTests\WhileTests.cs" />
+    <Compile Include="DelegateExtensions\FuncToutTests\DoWhileTests.cs" />
+    <Compile Include="DelegateExtensions\FuncTinoutTests\DoWhileTests.cs" />
+    <Compile Include="DelegateExtensions\FuncTinoutTests\RepeatWhileTests.cs" />
+    <Compile Include="DelegateExtensions\FuncToutTests\WhileTests.cs" />
+    <Compile Include="DelegateExtensions\FuncToutTests\RepeatTests.cs" />
+    <Compile Include="DelegateExtensions\FuncToutTests\RepeatWhileTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

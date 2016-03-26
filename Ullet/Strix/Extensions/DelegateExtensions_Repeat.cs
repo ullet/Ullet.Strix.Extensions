@@ -16,7 +16,7 @@ namespace Ullet.Strix.Extensions
     /// </summary>
     public static void Repeat(this Action action, int count)
     {
-      action.While(() => count-- > 0);
+      action.RepeatWhile(() => count-- > 0);
     }
 
     /// <summary>
@@ -42,8 +42,7 @@ namespace Ullet.Strix.Extensions
     /// </remarks>
     public static IEnumerable<T> Repeat<T>(this Func<T> expression, int count)
     {
-      while (count-- > 0)
-        yield return expression();
+      return expression.RepeatWhile(() => count-- > 0);
     }
   }
 }

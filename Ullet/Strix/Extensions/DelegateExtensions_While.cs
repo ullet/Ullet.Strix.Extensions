@@ -12,7 +12,7 @@ namespace Ullet.Strix.Extensions
   {
     /// <summary>
     /// Evaluate <paramref name="expression"/> while
-    /// <paramref name="predicate"/> is false. May execute the expression zero
+    /// <paramref name="predicate"/> is true. May execute the expression zero
     /// times if predicate is immediately true. Result of each evaluation of
     /// epression is passed as input to the predicate. First input for predicate
     /// is default of <typeparamref name="T"/>. Returns the final return
@@ -47,7 +47,7 @@ namespace Ullet.Strix.Extensions
 
     /// <summary>
     /// Evaluate <paramref name="expression"/> while
-    /// <paramref name="predicate"/> is false. May execute the expression zero
+    /// <paramref name="predicate"/> is true. May execute the expression zero
     /// times if predicate is immediately true. Result of each evaluation of
     /// epression is passed as input to the predicate. First input for predicate
     /// is the specified <paramref name="defaultResult"/>. Returns the final
@@ -88,7 +88,7 @@ namespace Ullet.Strix.Extensions
 
     /// <summary>
     /// Evaluate <paramref name="expression"/> while
-    /// <paramref name="predicate"/> is false. Result of each evaluation of
+    /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. The default of <typeparamref name="T"/> is passed to
     /// the preficate and expression as the first input value. Returns the final
@@ -118,7 +118,7 @@ namespace Ullet.Strix.Extensions
 
     /// <summary>
     /// Evaluate <paramref name="expression"/> while
-    /// <paramref name="predicate"/> is false. Result of each evaluation of
+    /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. <paramref name="initial"/> is passed to the predicate
     /// and expression as the first input value. Returns the final return value
@@ -147,17 +147,12 @@ namespace Ullet.Strix.Extensions
     public static T While<T>(
       this Func<T, T> expression, T initial, Func<T, bool> predicate)
     {
-      var result = initial;
-      while (predicate(result))
-      {
-        result = expression(result);
-      }
-      return result;
+      return expression.While(initial, initial, predicate);
     }
 
     /// <summary>
     /// Evaluate <paramref name="expression"/> while
-    /// <paramref name="predicate"/> is false. Result of each evaluation of
+    /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. <paramref name="initial"/> is passed to the predicate
     /// and expression as the first input value. Returns the final return value
@@ -204,7 +199,7 @@ namespace Ullet.Strix.Extensions
 
     /// <summary>
     /// Execute <paramref name="action"/> while <paramref name="predicate"/> is
-    /// false.
+    /// true.
     /// </summary>
     /// <param name="action">
     /// <see cref="Action"/> to execute in each iteration of the loop.
@@ -241,9 +236,7 @@ namespace Ullet.Strix.Extensions
     {
       // ReSharper disable once LoopVariableIsNeverChangedInsideLoop
       while (predicate())
-      {
         action();
-      }
     }
   }
 }

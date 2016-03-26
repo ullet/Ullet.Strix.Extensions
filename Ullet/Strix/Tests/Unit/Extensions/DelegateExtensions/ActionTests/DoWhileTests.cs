@@ -7,29 +7,29 @@
 using System;
 using NUnit.Framework;
 
-namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensionsTests
+namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensions.ActionTests
 {
   [TestFixture]
-  public class ActionWhileTests
+  public class DoWhileTests
   {
     [Test]
     [Timeout(1000)]
-    public void DoesNotExecuteOnceIfPredicateInitiallyFalse()
+    public void ExecutesAtLeastOnce()
     {
       var executed = false;
 
-      ((Action)(() => executed = true)).While(() => false);
+      ((Action)(() => executed = true)).DoWhile(() => false);
 
-      Assert.That(executed, Is.False);
+      Assert.That(executed, Is.True);
     }
 
     [Test]
     [Timeout(1000)]
-    public void ExecutesUntilConditionTrue()
+    public void ExecutesWhileConditionTrue()
     {
       var executionCount = 0;
 
-      ((Action)(() => executionCount++)).While(() => executionCount < 10);
+      ((Action)(() => executionCount++)).DoWhile(() => executionCount < 10);
 
       Assert.That(executionCount, Is.EqualTo(10));
     }

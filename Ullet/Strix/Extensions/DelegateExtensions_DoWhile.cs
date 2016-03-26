@@ -11,7 +11,7 @@ namespace Ullet.Strix.Extensions
   public static partial class DelegateExtensions
   {
     /// <summary>
-    /// Evaluate <paramref name="expression"/> at least once until
+    /// Evaluate <paramref name="expression"/> at least once while
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate. Returns the final return
     /// value from expression.
@@ -68,7 +68,7 @@ namespace Ullet.Strix.Extensions
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> at least once until
+    /// Evaluate <paramref name="expression"/> at least once while
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. Default of <typeparamref name="T"/> is passed to the
@@ -96,7 +96,7 @@ namespace Ullet.Strix.Extensions
     }
 
     /// <summary>
-    /// Evaluate <paramref name="expression"/> at least once until
+    /// Evaluate <paramref name="expression"/> at least once while
     /// <paramref name="predicate"/> is true. Result of each evaluation of
     /// epression is passed as input to the predicate and the next evalutation
     /// of the expression. The specified initial value is passed to the first
@@ -127,7 +127,7 @@ namespace Ullet.Strix.Extensions
     }
 
     /// <summary>
-    /// Execute <paramref name="action"/> at least once until
+    /// Execute <paramref name="action"/> at least once while
     /// <paramref name="predicate"/> is true.
     /// </summary>
     /// <param name="action">
@@ -143,27 +143,8 @@ namespace Ullet.Strix.Extensions
     /// dependent on an external environment, both for input and to
     /// be mutated to output some value, i.e. this is a very non-functional
     /// extension method where side-effects are central to it doing anything
-    /// useful. The value of this method is questionable.
+    /// useful.
     /// </remarks>
-    /// <example>
-    /// Generate a file name that doesn't already exist on the file system.
-    /// <code>
-    /// <![CDATA[
-    /// string fileName = null;
-    /// Action fileNameGenerator = () => fileName = Path.GetRandomFileName();
-    /// fileNameGenerator.DoWhile(() => File.Exists(fileName));
-    /// ]]>
-    /// </code>
-    /// This could instead be written simpler as a do..while() loop:
-    /// <code>
-    /// <![CDATA[
-    /// string fileName;
-    /// do {
-    ///   fileName = Path.GetRandomFileName();
-    /// } while (File.Exists(fileName));
-    /// ]]>
-    /// </code>
-    /// </example>
     public static void DoWhile(this Action action, Func<bool> predicate)
     {
       do

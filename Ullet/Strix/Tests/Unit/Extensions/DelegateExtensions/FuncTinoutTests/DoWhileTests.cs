@@ -7,9 +7,9 @@
 using System;
 using NUnit.Framework;
 
-namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensionsTests
+namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensions.FuncTinoutTests
 {
-  public class FuncTinoutDoWhileTests
+  public class DoWhileTests
   {
     [Test]
     [Timeout(1000)]
@@ -24,7 +24,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.DelegateExtensionsTests
 
     [Test]
     [Timeout(1000)]
-    public void ExecutesUntilConditionTrue()
+    public void ExecutesWhileConditionTrue()
     {
       var executionCount = 0;
 
