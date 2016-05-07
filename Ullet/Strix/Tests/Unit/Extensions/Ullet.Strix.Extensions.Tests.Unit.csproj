@@ -69,6 +69,8 @@
     <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensionsTests\StartsWithAnyOfTests\EnumerablePrefixesParameter.cs" />
+    <Compile Include="StringExtensionsTests\StartsWithAnyOfTests\ParamsPrefixesParameter.cs" />
     <Compile Include="StringExtensionsTests\StartsWithOneOfTests\ParamsPrefixesParameter.cs" />
     <Compile Include="StringExtensionsTests\StartsWithOneOfTests\EnumerablePrefixesParameter.cs" />
   </ItemGroup>
