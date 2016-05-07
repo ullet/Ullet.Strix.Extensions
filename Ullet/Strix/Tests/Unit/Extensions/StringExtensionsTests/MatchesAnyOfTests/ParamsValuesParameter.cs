@@ -30,7 +30,8 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf<string>((s, v) => true), Is.False);
+          "Any old string".MatchesAnyOf((s, v) => true, (string[]) null),
+          Is.False);
       }
     }
 
