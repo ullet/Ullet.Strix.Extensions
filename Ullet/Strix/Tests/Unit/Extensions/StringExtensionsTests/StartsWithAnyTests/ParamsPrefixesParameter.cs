@@ -7,7 +7,7 @@
 using NUnit.Framework;
 
 namespace
-  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.StartsWithAnyOfTests
+  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.StartsWithAnyTests
 {
   public class ParamsPrefixesParameter
   {
@@ -17,7 +17,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("Any old string".StartsWithAnyOf(), Is.False);
+        Assert.That("Any old string".StartsWithAny(), Is.False);
       }
     }
 
@@ -27,7 +27,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("Any old string".StartsWithAnyOf((string[])null), Is.False);
+        Assert.That("Any old string".StartsWithAny((string[])null), Is.False);
       }
     }
 
@@ -37,7 +37,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("".StartsWithAnyOf("A", "The", "It"), Is.False);
+        Assert.That("".StartsWithAny("A", "The", "It"), Is.False);
       }
     }
 
@@ -47,7 +47,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(((string)null).StartsWithAnyOf("A", "The", "It"), Is.False);
+        Assert.That(((string)null).StartsWithAny("A", "The", "It"), Is.False);
       }
     }
 
@@ -60,7 +60,7 @@ namespace
         const string prefix = "The";
         const string str = prefix + " String";
 
-        Assert.That(str.StartsWithAnyOf(prefix), Is.True);
+        Assert.That(str.StartsWithAny(prefix), Is.True);
       }
 
       [Test]
@@ -69,7 +69,7 @@ namespace
         const string prefix = "The";
         const string str = "Not the String";
 
-        Assert.That(str.StartsWithAnyOf(prefix), Is.False);
+        Assert.That(str.StartsWithAny(prefix), Is.False);
       }
 
       [Test]
@@ -78,7 +78,7 @@ namespace
         const string prefix = "The";
         const string str = "the String";
 
-        Assert.That(str.StartsWithAnyOf(prefix), Is.False);
+        Assert.That(str.StartsWithAny(prefix), Is.False);
       }
     }
 
@@ -93,7 +93,7 @@ namespace
         const string str = prefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf(prefix, otherPrefix), Is.True);
+          str.StartsWithAny(prefix, otherPrefix), Is.True);
       }
 
       [Test]
@@ -104,7 +104,7 @@ namespace
         const string str = otherPrefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf(prefix, otherPrefix), Is.True);
+          str.StartsWithAny(prefix, otherPrefix), Is.True);
       }
 
       [Test]
@@ -114,7 +114,7 @@ namespace
         const string otherPrefix = "A";
         const string str = "Not the String";
 
-        Assert.That(str.StartsWithAnyOf(prefix, otherPrefix), Is.False);
+        Assert.That(str.StartsWithAny(prefix, otherPrefix), Is.False);
       }
 
       [Test]
@@ -125,8 +125,8 @@ namespace
         const string str = "the String";
         const string otherStr = "a String";
 
-        Assert.That(str.StartsWithAnyOf(prefix, otherPrefix), Is.False);
-        Assert.That(otherStr.StartsWithAnyOf(prefix, otherPrefix), Is.False);
+        Assert.That(str.StartsWithAny(prefix, otherPrefix), Is.False);
+        Assert.That(otherStr.StartsWithAny(prefix, otherPrefix), Is.False);
       }
     }
 
@@ -141,7 +141,7 @@ namespace
       {
         var str = actualPrefix + " String";
 
-        Assert.That(str.StartsWithAnyOf("The", "A", "Some", "That"), Is.True);
+        Assert.That(str.StartsWithAny("The", "A", "Some", "That"), Is.True);
       }
 
       [Test]
@@ -149,7 +149,7 @@ namespace
       {
         const string str = "Other String";
 
-        Assert.That(str.StartsWithAnyOf("The", "A", "Some", "That"), Is.False);
+        Assert.That(str.StartsWithAny("The", "A", "Some", "That"), Is.False);
       }
 
       [TestCase("the")]
@@ -160,7 +160,7 @@ namespace
       {
         string str = actualPrefix + " String";
 
-        Assert.That(str.StartsWithAnyOf("The", "A", "Some", "That"), Is.False);
+        Assert.That(str.StartsWithAny("The", "A", "Some", "That"), Is.False);
       }
     }
   }

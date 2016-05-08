@@ -9,7 +9,7 @@ using System.Linq;
 using NUnit.Framework;
 
 namespace
-  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.StartsWithAnyOfTests
+  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.StartsWithAnyTests
 {
   public class EnumerablePrefixesParameter
   {
@@ -20,7 +20,7 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".StartsWithAnyOf(Enumerable.Empty<string>()),
+          "Any old string".StartsWithAny(Enumerable.Empty<string>()),
           Is.False);
       }
     }
@@ -32,7 +32,7 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".StartsWithAnyOf((IEnumerable<string>) null),
+          "Any old string".StartsWithAny((IEnumerable<string>) null),
           Is.False);
       }
     }
@@ -44,7 +44,7 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          "".StartsWithAnyOf((IEnumerable<string>)new [] {"A", "The", "It"}),
+          "".StartsWithAny((IEnumerable<string>)new [] {"A", "The", "It"}),
           Is.False);
       }
     }
@@ -56,7 +56,7 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          ((string) null).StartsWithAnyOf(
+          ((string) null).StartsWithAny(
             (IEnumerable<string>)new[] { "A", "The", "It" }),
           Is.False);
       }
@@ -72,7 +72,7 @@ namespace
         const string str = prefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf((IEnumerable<string>) new[] {prefix}), Is.True);
+          str.StartsWithAny((IEnumerable<string>) new[] {prefix}), Is.True);
       }
 
       [Test]
@@ -82,7 +82,7 @@ namespace
         const string str = "Not the String";
 
         Assert.That(
-          str.StartsWithAnyOf((IEnumerable<string>) new[] { prefix }),
+          str.StartsWithAny((IEnumerable<string>) new[] { prefix }),
           Is.False);
       }
 
@@ -93,7 +93,7 @@ namespace
         const string str = "the String";
 
         Assert.That(
-          str.StartsWithAnyOf((IEnumerable<string>) new[] { prefix }),
+          str.StartsWithAny((IEnumerable<string>) new[] { prefix }),
           Is.False);
       }
     }
@@ -109,7 +109,7 @@ namespace
         const string str = prefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf(
+          str.StartsWithAny(
             (IEnumerable<string>) new[] {prefix, otherPrefix}),
           Is.True);
       }
@@ -122,7 +122,7 @@ namespace
         const string str = otherPrefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf(
+          str.StartsWithAny(
             (IEnumerable<string>) new[] {prefix, otherPrefix}),
           Is.True);
       }
@@ -135,7 +135,7 @@ namespace
         const string str = "Not the String";
 
         Assert.That(
-          str.StartsWithAnyOf(
+          str.StartsWithAny(
             (IEnumerable<string>) new[] {prefix, otherPrefix}),
           Is.False);
       }
@@ -149,11 +149,11 @@ namespace
         const string otherStr = "a String";
 
         Assert.That(
-          str.StartsWithAnyOf(
+          str.StartsWithAny(
             (IEnumerable<string>) new[] {prefix, otherPrefix}),
           Is.False);
         Assert.That(
-          otherStr.StartsWithAnyOf(
+          otherStr.StartsWithAny(
             (IEnumerable<string>) new[] {prefix, otherPrefix}),
           Is.False);
       }
@@ -173,7 +173,7 @@ namespace
         string str = prefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf((IEnumerable<string>) prefixes), Is.True);
+          str.StartsWithAny((IEnumerable<string>) prefixes), Is.True);
       }
 
       [Test]
@@ -183,7 +183,7 @@ namespace
         const string str = "Other String";
 
         Assert.That(
-          str.StartsWithAnyOf((IEnumerable<string>) prefixes), Is.False);
+          str.StartsWithAny((IEnumerable<string>) prefixes), Is.False);
       }
 
       [TestCase(0)]
@@ -197,7 +197,7 @@ namespace
         string str = prefix + " String";
 
         Assert.That(
-          str.StartsWithAnyOf((IEnumerable<string>) prefixes), Is.False);
+          str.StartsWithAny((IEnumerable<string>) prefixes), Is.False);
       }
     }
   }

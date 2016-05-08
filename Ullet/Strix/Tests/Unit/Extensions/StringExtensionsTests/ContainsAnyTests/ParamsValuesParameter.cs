@@ -4,14 +4,12 @@
  * UNLICENSE file accompanying this source code.
  */
 
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 
 namespace
-  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.ContainsAnyOfTests
+  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.ContainsAnyTests
 {
-  public class EnumerableValuesParameter
+  public class ParamsValuesParameter
   {
     [TestFixture]
     public class WhenNoValues
@@ -19,8 +17,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          "Any old string".ContainsAnyOf(Enumerable.Empty<string>()), Is.False);
+        Assert.That("Any old string".ContainsAny(), Is.False);
       }
     }
 
@@ -30,8 +27,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          "Any old string".ContainsAnyOf((IEnumerable<string>)null), Is.False);
+        Assert.That("Any old string".ContainsAny((string[])null), Is.False);
       }
     }
 
@@ -41,9 +37,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          "".ContainsAnyOf((IEnumerable<string>) new[] {"A", "The", "It"}),
-          Is.False);
+        Assert.That("".ContainsAny("A", "The", "It"), Is.False);
       }
     }
 
@@ -53,10 +47,7 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          ((string) null).ContainsAnyOf(
-            (IEnumerable<string>) new[] {"A", "The", "It"}),
-          Is.False);
+        Assert.That(((string)null).ContainsAny("A", "The", "It"), Is.False);
       }
     }
 
@@ -69,8 +60,7 @@ namespace
         const string value = "The";
         const string str = value + " String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value}), Is.True);
+        Assert.That(str.ContainsAny(value), Is.True);
       }
 
       [Test]
@@ -79,8 +69,7 @@ namespace
         const string value = "String";
         const string str = "The " + value;
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value}), Is.True);
+        Assert.That(str.ContainsAny(value), Is.True);
       }
 
       [Test]
@@ -89,8 +78,7 @@ namespace
         const string value = "other";
         const string str = "The " + value + " string";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value}), Is.True);
+        Assert.That(str.ContainsAny(value), Is.True);
       }
 
       [Test]
@@ -99,8 +87,7 @@ namespace
         const string value = "cabbage";
         const string str = "String not containing the value";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value}), Is.False);
+        Assert.That(str.ContainsAny(value), Is.False);
       }
 
       [Test]
@@ -109,8 +96,7 @@ namespace
         const string value = "other";
         const string str = "The Other String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value}), Is.False);
+        Assert.That(str.ContainsAny(value), Is.False);
       }
     }
 
@@ -124,9 +110,7 @@ namespace
         const string otherValue = "second";
         const string str = "The " + value + " String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value, otherValue}),
-          Is.True);
+        Assert.That(str.ContainsAny(value, otherValue), Is.True);
       }
 
       [Test]
@@ -136,9 +120,7 @@ namespace
         const string otherValue = "second";
         const string str = "The" + otherValue + " String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value, otherValue}),
-          Is.True);
+        Assert.That(str.ContainsAny(value, otherValue), Is.True);
       }
 
       [Test]
@@ -148,9 +130,7 @@ namespace
         const string otherValue = "second";
         const string str = "The" + value + " or " + otherValue + " String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value, otherValue}),
-          Is.True);
+        Assert.That(str.ContainsAny(value, otherValue), Is.True);
       }
 
       [Test]
@@ -160,9 +140,7 @@ namespace
         const string otherValue = "second";
         const string str = "The" + otherValue + " or " + value + " String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value, otherValue}),
-          Is.True);
+        Assert.That(str.ContainsAny(value, otherValue), Is.True);
       }
 
       [Test]
@@ -172,9 +150,7 @@ namespace
         const string otherValue = "second";
         const string str = "The third String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value, otherValue}),
-          Is.False);
+        Assert.That(str.ContainsAny(value, otherValue), Is.False);
       }
 
       [Test]
@@ -184,9 +160,7 @@ namespace
         const string otherValue = "second";
         const string str = "The First or Second String";
 
-        Assert.That(
-          str.ContainsAnyOf((IEnumerable<string>) new[] {value, otherValue}),
-          Is.False);
+        Assert.That(str.ContainsAny(value, otherValue), Is.False);
       }
     }
 
@@ -202,12 +176,7 @@ namespace
         var str = "The " + actualValue + " string";
 
         Assert.That(
-          str.ContainsAnyOf(
-            (IEnumerable<string>) new[]
-            {
-              "first", "second", "third", "fourth"
-            }),
-          Is.True);
+          str.ContainsAny("first", "second", "third", "fourth"), Is.True);
       }
 
       [TestCase("firstsecondthirdfourth")]
@@ -219,12 +188,7 @@ namespace
         var str = "The " + allValues + " string";
 
         Assert.That(
-          str.ContainsAnyOf(
-            (IEnumerable<string>) new[]
-            {
-              "first", "second", "third", "fourth"
-            }),
-          Is.True);
+          str.ContainsAny("first", "second", "third", "fourth"), Is.True);
       }
 
       [TestCase("firstsecond")]
@@ -236,12 +200,7 @@ namespace
         var str = "The " + multiValues + " string";
 
         Assert.That(
-          str.ContainsAnyOf(
-            (IEnumerable<string>) new[]
-            {
-              "first", "second", "third", "fourth"
-            }),
-          Is.True);
+          str.ContainsAny("first", "second", "third", "fourth"), Is.True);
       }
 
       [Test]
@@ -249,13 +208,7 @@ namespace
       {
         const string str = "Other String";
 
-        Assert.That(
-          str.ContainsAnyOf(
-            (IEnumerable<string>) new[]
-            {
-              "The", "A", "Some", "That"
-            }),
-          Is.False);
+        Assert.That(str.ContainsAny("The", "A", "Some", "That"), Is.False);
       }
 
       [Test]
@@ -264,12 +217,7 @@ namespace
         const string str = "The FirstSecondThirdFourth String";
 
         Assert.That(
-          str.ContainsAnyOf(
-            (IEnumerable<string>)new[]
-            {
-              "first", "second", "third", "fourth"
-            }),
-          Is.False);
+          str.ContainsAny("first", "second", "third", "fourth"), Is.False);
       }
     }
   }

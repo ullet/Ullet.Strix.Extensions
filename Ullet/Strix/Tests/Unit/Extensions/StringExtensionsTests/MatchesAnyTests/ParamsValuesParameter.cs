@@ -5,14 +5,12 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 
 namespace
-  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.MatchesAnyOfTests
+  Ullet.Strix.Extensions.Tests.Unit.StringExtensionsTests.MatchesAnyTests
 {
-  public class EnumerableValuesParameter
+  public class ParamsValuesParameter
   {
     [TestFixture]
     public class WhenNoValues
@@ -21,9 +19,7 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf<string>(
-            (s,v) => true, Enumerable.Empty<string>()),
-          Is.False);
+          "Any old string".MatchesAny<string>((s, v) => true), Is.False);
       }
     }
 
@@ -34,8 +30,7 @@ namespace
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf<string>(
-            (s, v) => true, (IEnumerable<string>) null),
+          "Any old string".MatchesAny((s, v) => true, (string[]) null),
           Is.False);
       }
     }
@@ -50,9 +45,7 @@ namespace
         const string str = "The String";
         Func<string, int, bool> predicate = (s, len) => s.Length == len;
 
-        Assert.That(
-          str.MatchesAnyOf(predicate, (IEnumerable<int>) new[] {value}),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, value), Is.True);
       }
 
       [Test]
@@ -62,9 +55,7 @@ namespace
         const string str = "The String";
         Func<string, int, bool> predicate = (s, len) => s.Length == len;
 
-        Assert.That(
-          str.MatchesAnyOf(predicate, (IEnumerable<int>)new[] { value }),
-          Is.False);
+        Assert.That(str.MatchesAny(predicate, value), Is.False);
       }
     }
 
@@ -79,10 +70,7 @@ namespace
         const string str = "The String";
         Func<string, int, bool> predicate = (s, len) => s.Length == len;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            predicate, (IEnumerable<int>) new[] {value, otherValue}),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, value, otherValue), Is.True);
       }
 
       [Test]
@@ -93,10 +81,7 @@ namespace
         const string str = "The String";
         Func<string, int, bool> predicate = (s, len) => s.Length == len;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            predicate, (IEnumerable<int>)new[] { value, otherValue }),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, value, otherValue), Is.True);
       }
 
       [Test]
@@ -107,10 +92,7 @@ namespace
         const string str = "The String";
         Func<string, int, bool> predicate = (s, len) => s.Length >= len;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            predicate, (IEnumerable<int>)new[] { value, otherValue }),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, value, otherValue), Is.True);
       }
 
       [Test]
@@ -121,10 +103,7 @@ namespace
         const string str = "The String";
         Func<string, int, bool> predicate = (s, len) => s.Length < len;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            predicate, (IEnumerable<int>)new[] { value, otherValue }),
-          Is.False);
+        Assert.That(str.MatchesAny(predicate, value, otherValue), Is.False);
       }
     }
 
@@ -140,11 +119,7 @@ namespace
         var str = actualValue + " string";
         Func<string, char, bool> predicate = (s, ch) => s[0] == ch;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            predicate,
-            (IEnumerable<char>) new[] { 'A', 'B', 'C', 'D'}),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, 'A', 'B', 'C', 'D'), Is.True);
       }
 
       [Test]
@@ -153,11 +128,7 @@ namespace
         const string str = "A String";
         Func<string, int, bool> predicate = (s, len) => s.Length > len;
 
-        Assert.That(
-          str.MatchesAnyOf(
-          predicate,
-            (IEnumerable<int>) new[] {0, 1, 2, 3}),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, 0, 1, 2, 3), Is.True);
       }
 
       [Test]
@@ -166,11 +137,7 @@ namespace
         const string str = "A String";
         Func<string, int, bool> predicate = (s, len) => s.Length <= len;
 
-        Assert.That(
-          str.MatchesAnyOf(
-          predicate,
-            (IEnumerable<int>)new[] { 0, 1, 2, 3 }),
-          Is.False);
+        Assert.That(str.MatchesAny(predicate, 0, 1, 2, 3), Is.False);
       }
     }
   }

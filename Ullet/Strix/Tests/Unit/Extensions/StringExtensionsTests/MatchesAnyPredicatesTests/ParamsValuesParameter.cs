@@ -5,14 +5,12 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 
 namespace Ullet.Strix.Extensions.Tests.Unit.
-  StringExtensionsTests.MatchesAnyOfPredicatesTests
+  StringExtensionsTests.MatchesAnyPredicatesTests
 {
-  public class EnumerablePredicatesParameter
+  public class ParamsValuesParameter
   {
     [TestFixture]
     public class WhenNoPredicates
@@ -20,10 +18,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          "Any old string".MatchesAnyOf(
-            Enumerable.Empty<Func<string, bool>>()),
-          Is.False);
+        Assert.That("Any old string".MatchesAny(), Is.False);
       }
     }
 
@@ -34,8 +29,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf((IEnumerable<Func<string, bool>>) null),
-          Is.False);
+          "Any old string".MatchesAny((Func<string, bool>[]) null), Is.False);
       }
     }
 
@@ -46,9 +40,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void FalseIfPredicateIsNull()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>) new Func<string, bool>[] {null}),
-          Is.False);
+          "Any old string".MatchesAny((Func<string, bool>) null), Is.False);
       }
 
       [Test]
@@ -57,10 +49,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
         const string str = "The String";
         Func<string, bool> predicate = s => s.Length == 10;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)new[] { predicate }),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate), Is.True);
       }
 
       [Test]
@@ -69,10 +58,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
         const string str = "The String";
         Func<string, bool> predicate = s => s.Length == 0;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)new[] { predicate }),
-          Is.False);
+        Assert.That(str.MatchesAny(predicate), Is.False);
       }
     }
 
@@ -83,9 +69,8 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void FalseIfBothPredicatesAreNull()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] {null, null}),
+          "Any old string".MatchesAny(
+            (Func<string, bool>) null, (Func<string, bool>) null),
           Is.False);
       }
 
@@ -93,9 +78,8 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void NullForFirstPredicateIsIgnored()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] { null, s => true }),
+          "Any old string".MatchesAny(
+            (Func<string, bool>)null, (Func<string, bool>)(s => true)),
           Is.True);
       }
 
@@ -103,9 +87,8 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void NullForSecondPredicateIsIgnored()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] { s => true, null }),
+          "Any old string".MatchesAny(
+            (Func<string, bool>)(s => true), (Func<string, bool>)null),
           Is.True);
       }
 
@@ -116,13 +99,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
         Func<string, bool> predicate = s => s.Length == 10;
         Func<string, bool> otherPredicate = s => s.Length == 11;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.True);
       }
 
       [Test]
@@ -132,13 +109,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
         Func<string, bool> predicate = s => s.Length == 9;
         Func<string, bool> otherPredicate = s => s.Length == 10;
 
-        Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.True);
       }
 
       [Test]
@@ -148,13 +119,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
         Func<string, bool> predicate = s => s.Length == 10;
         Func<string, bool> otherPredicate = s => s.StartsWith("The");
 
-        Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.True);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.True);
       }
 
       [Test]
@@ -164,13 +129,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
         Func<string, bool> predicate = s => s.Length == 9;
         Func<string, bool> otherPredicate = s => s.StartsWith("A");
 
-        Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.False);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.False);
       }
     }
 
@@ -181,9 +140,11 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void FalseIfAllPredicatesAreNull()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] {null, null, null, null}),
+          "Any old string".MatchesAny(
+            (Func<string, bool>) null,
+            (Func<string, bool>) null,
+            (Func<string, bool>) null,
+            (Func<string, bool>) null),
           Is.False);
       }
 
@@ -191,9 +152,11 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void AnyNullPredicatesAreIgnored()
       {
         Assert.That(
-          "Any old string".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] { null, s => true, null, null }),
+          "Any old string".MatchesAny(
+            (Func<string, bool>)null,
+            (Func<string, bool>)null,
+            (Func<string, bool>)(s => true),
+            (Func<string, bool>)null),
           Is.True);
       }
 
@@ -204,14 +167,11 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void TrueIfMatchesOnAnyOfThePredicates(string str)
       {
         Assert.That(
-          str.MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)new Func<string, bool>[]
-            {
-              s => s.Length == 10,
-              s => s.StartsWith("The"),
-              s => s.EndsWith("ing"),
-              s => s.Split(' ').Length == 2
-            }),
+          str.MatchesAny(
+            s => s.Length == 10,
+            s => s.StartsWith("The"),
+            s => s.EndsWith("ing"),
+            s => s.Split(' ').Length == 2),
           Is.True);
       }
 
@@ -219,14 +179,11 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void TrueIfMatchesOnAllOfThePredicates()
       {
         Assert.That(
-          "The String".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>)new Func<string, bool>[]
-            {
-              s => s.Length == 10,
-              s => s.StartsWith("The"),
-              s => s.EndsWith("ing"),
-              s => s.Split(' ').Length == 2
-            }),
+          "The String".MatchesAny(
+            s => s.Length == 10,
+            s => s.StartsWith("The"),
+            s => s.EndsWith("ing"),
+            s => s.Split(' ').Length == 2),
           Is.True);
       }
 
@@ -234,14 +191,11 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       public void FalseIfMatchesOnNoneOfThePredicates()
       {
         Assert.That(
-          "Throwin'".MatchesAnyOf(
-            (IEnumerable<Func<string, bool>>) new Func<string, bool>[]
-            {
-              s => s.Length == 10,
-              s => s.StartsWith("The"),
-              s => s.EndsWith("ing"),
-              s => s.Split(' ').Length == 2
-            }),
+          "Throwin'".MatchesAny(
+            s => s.Length == 10,
+            s => s.StartsWith("The"),
+            s => s.EndsWith("ing"),
+            s => s.Split(' ').Length == 2),
           Is.False);
       }
     }
