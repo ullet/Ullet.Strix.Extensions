@@ -15,6 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ullet.Strix.Extensions", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ullet.Strix.Extensions.Tests.Unit", "Ullet\Strix\Tests\Unit\Extensions\Ullet.Strix.Extensions.Tests.Unit.csproj", "{F0735966-9A35-4C24-B59C-571E4F4AA173}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{89E3D799-D48E-4A6F-99EA-385A1208A54B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
