@@ -65,7 +65,8 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       {
         var possiblyNullPredicateGen =
           Gen.Elements(Predicates<T>.True, Predicates<T>.Null);
-        var predicateArrayGen = GenExt.NonEmptyArrayOf(possiblyNullPredicateGen);
+        var predicateArrayGen =
+          GenExt.NonEmptyArrayOf(possiblyNullPredicateGen);
         Func<Func<T, bool>[], bool> someNull = ps => ps.Any(p => p == null);
         Func<Func<T, bool>[], bool> someNotNull = ps => ps.Any(p => p != null);
         var mixOfNullAndNotNullPredicatesGen = Gen.SuchThat(

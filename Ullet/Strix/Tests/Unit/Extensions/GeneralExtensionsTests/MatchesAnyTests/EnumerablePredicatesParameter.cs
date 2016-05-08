@@ -7,242 +7,133 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FsCheck;
 using NUnit.Framework;
+using Ullet.Strix.Extensions.Tests.Unit.Support;
 
 namespace
   Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.MatchesAnyTests
 {
-  public class EnumerablePredicatesParameter
+  public abstract class EnumerablePredicatesParameter
   {
-    [TestFixture]
-    public class WhenNoPredicates
+    [TestFixture(typeof(int))]
+    [TestFixture(typeof(string))]
+    [TestFixture(typeof(decimal))]
+    private abstract class Fixture
+    {
+    }
+
+    private class WhenEmptyPredicates<T> : Fixture
     {
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          "Any old string".MatchesAny(
-            Enumerable.Empty<Func<string, bool>>()),
-          Is.False);
+        Prop
+          .ForAll<T>(x => !x.MatchesAny(Enumerable.Empty<Func<T, bool>>()))
+          .QuickCheckThrowOnFailure();
       }
     }
 
-    [TestFixture]
-    public class WhenNullPredicates
+    private class WhenNullPredicates<T> : Fixture
     {
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(
-          "Any old string".MatchesAny((IEnumerable<Func<string, bool>>) null),
-          Is.False);
+        Prop
+          .ForAll<T>(x => !x.MatchesAny((IEnumerable<Func<T, bool>>)null))
+          .QuickCheckThrowOnFailure();
       }
     }
 
-    [TestFixture]
-    public class WhenSinglePredicate
-    {
-      [Test]
-      public void FalseIfPredicateIsNull()
-      {
-        Assert.That(
-          "Any old string".MatchesAny(
-            (IEnumerable<Func<string, bool>>) new Func<string, bool>[] {null}),
-          Is.False);
-      }
-
-      [Test]
-      public void TrueIfMatchesOnPredicate()
-      {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 10;
-
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>)new[] { predicate }),
-          Is.True);
-      }
-
-      [Test]
-      public void FalseIfDoesNotMatchOnPredicate()
-      {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 0;
-
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>)new[] { predicate }),
-          Is.False);
-      }
-    }
-
-    [TestFixture]
-    public class WhenTwoPredicates
-    {
-      [Test]
-      public void FalseIfBothPredicatesAreNull()
-      {
-        Assert.That(
-          "Any old string".MatchesAny(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] {null, null}),
-          Is.False);
-      }
-
-      [Test]
-      public void NullForFirstPredicateIsIgnored()
-      {
-        Assert.That(
-          "Any old string".MatchesAny(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] { null, s => true }),
-          Is.True);
-      }
-
-      [Test]
-      public void NullForSecondPredicateIsIgnored()
-      {
-        Assert.That(
-          "Any old string".MatchesAny(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] { s => true, null }),
-          Is.True);
-      }
-
-      [Test]
-      public void TrueIfMatchesOnFirstPredicate()
-      {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 10;
-        Func<string, bool> otherPredicate = s => s.Length == 11;
-
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.True);
-      }
-
-      [Test]
-      public void TrueIfMatchesOnSecondPredicate()
-      {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 9;
-        Func<string, bool> otherPredicate = s => s.Length == 10;
-
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.True);
-      }
-
-      [Test]
-      public void TrueIfMatchesOnBothPredicate()
-      {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 10;
-        Func<string, bool> otherPredicate = s => s.StartsWith("The");
-
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.True);
-      }
-
-      [Test]
-      public void FalseIfDoesNotMatchOnEitherPredicate()
-      {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 9;
-        Func<string, bool> otherPredicate = s => s.StartsWith("A");
-
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>) new[]
-            {
-              predicate, otherPredicate
-            }),
-          Is.False);
-      }
-    }
-
-    [TestFixture]
-    public class WhenMultiplePredicates
+    private class WhenSomePredicates<T> : Fixture
     {
       [Test]
       public void FalseIfAllPredicatesAreNull()
       {
-        Assert.That(
-          "Any old string".MatchesAny(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] {null, null, null, null}),
-          Is.False);
+        var nullPredicateGen = Gen.Constant(Predicates<T>.Null);
+        var allNullPredicatesGen = GenExt.NonEmptyArrayOf(nullPredicateGen);
+
+        Prop
+          .ForAll<T>(
+            t => Prop.ForAll(
+              Arb.From(allNullPredicatesGen),
+              predicates =>
+                !t.MatchesAny((IEnumerable<Func<T, bool>>)predicates)))
+          .QuickCheckThrowOnFailure();
       }
 
       [Test]
       public void AnyNullPredicatesAreIgnored()
       {
-        Assert.That(
-          "Any old string".MatchesAny(
-            (IEnumerable<Func<string, bool>>)
-              new Func<string, bool>[] { null, s => true, null, null }),
-          Is.True);
+        var possiblyNullPredicateGen =
+          Gen.Elements(Predicates<T>.True, Predicates<T>.Null);
+        var predicateArrayGen =
+          GenExt.NonEmptyArrayOf(possiblyNullPredicateGen);
+        Func<Func<T, bool>[], bool> someNull = ps => ps.Any(p => p == null);
+        Func<Func<T, bool>[], bool> someNotNull = ps => ps.Any(p => p != null);
+        var mixOfNullAndNotNullPredicatesGen = Gen.SuchThat(
+          FsFunc.From((Func<T, bool>[] ps) => someNull(ps) && someNotNull(ps)),
+          predicateArrayGen);
+
+        Prop
+          .ForAll<T>(
+            t => Prop.ForAll(
+              Arb.From(mixOfNullAndNotNullPredicatesGen),
+              predicates =>
+                t.MatchesAny((IEnumerable<Func<T, bool>>)predicates)))
+          .QuickCheckThrowOnFailure();
       }
 
-      [TestCase("Absolutely")]
-      [TestCase("Thermal")]
-      [TestCase("Keep on trying")]
-      [TestCase("Pea Soup")]
-      public void TrueIfMatchesOnAnyOfThePredicates(string str)
+      [Test]
+      public void TrueIfMatchesOnAnyOfThePredicates()
       {
-        Assert.That(
-          str.MatchesAny(
-            (IEnumerable<Func<string, bool>>)new Func<string, bool>[]
-            {
-              s => s.Length == 10,
-              s => s.StartsWith("The"),
-              s => s.EndsWith("ing"),
-              s => s.Split(' ').Length == 2
-            }),
-          Is.True);
+        var trueOrFalsePredicateGen =
+          Gen.Elements(Predicates<T>.True, Predicates<T>.False);
+        var predicateArrayGen = GenExt.NonEmptyArrayOf(trueOrFalsePredicateGen);
+        Func<Func<T, bool>[], bool> someTrue = ps => ps.Any(p => p(default(T)));
+        Func<Func<T, bool>[], bool>
+          someFalse = ps => ps.Any(p => !p(default(T)));
+        var mixOfTrueAndFalsePredicatesGen = Gen.SuchThat(
+          FsFunc.From((Func<T, bool>[] ps) => someTrue(ps) && someFalse(ps)),
+          predicateArrayGen);
+
+        Prop
+          .ForAll<T>(
+            t => Prop.ForAll(
+              Arb.From(mixOfTrueAndFalsePredicatesGen),
+              predicates =>
+                t.MatchesAny((IEnumerable<Func<T, bool>>)predicates)))
+          .QuickCheckThrowOnFailure();
       }
 
       [Test]
       public void TrueIfMatchesOnAllOfThePredicates()
       {
-        Assert.That(
-          "The String".MatchesAny(
-            (IEnumerable<Func<string, bool>>)new Func<string, bool>[]
-            {
-              s => s.Length == 10,
-              s => s.StartsWith("The"),
-              s => s.EndsWith("ing"),
-              s => s.Split(' ').Length == 2
-            }),
-          Is.True);
+        var truePredicateGen = Gen.Constant(Predicates<T>.True);
+        var allTruePredicatesGen = GenExt.NonEmptyArrayOf(truePredicateGen);
+
+        Prop
+          .ForAll<T>(
+            t => Prop.ForAll(
+              Arb.From(allTruePredicatesGen),
+              predicates =>
+                t.MatchesAny((IEnumerable<Func<T, bool>>)predicates)))
+          .QuickCheckThrowOnFailure();
       }
 
       [Test]
       public void FalseIfMatchesOnNoneOfThePredicates()
       {
-        Assert.That(
-          "Throwin'".MatchesAny(
-            (IEnumerable<Func<string, bool>>) new Func<string, bool>[]
-            {
-              s => s.Length == 10,
-              s => s.StartsWith("The"),
-              s => s.EndsWith("ing"),
-              s => s.Split(' ').Length == 2
-            }),
-          Is.False);
+        var falsePredicateGen = Gen.Constant(Predicates<T>.False);
+        var allFalsePredicatesGen = GenExt.NonEmptyArrayOf(falsePredicateGen);
+
+        Prop
+          .ForAll<T>(
+            t => Prop.ForAll(
+              Arb.From(allFalsePredicatesGen),
+              predicates =>
+                !t.MatchesAny((IEnumerable<Func<T, bool>>)predicates)))
+          .QuickCheckThrowOnFailure();
       }
     }
   }
