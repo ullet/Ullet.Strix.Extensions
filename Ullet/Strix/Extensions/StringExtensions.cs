@@ -154,42 +154,5 @@ namespace Ullet.Strix.Extensions
     {
       return s.MatchesAny(predicate, (IEnumerable<T>) values);
     }
-
-    /// <summary>
-    /// Test if string matches any of the specified predicates.
-    /// </summary>
-    /// <param name="s">String to search.</param>
-    /// <param name="predicates">
-    /// <![CDATA[Func<string, bool>]]> predicate functions that perform the
-    /// match tests.
-    /// </param>
-    /// <returns>
-    /// <c>true</c> if string matches using at least one of the predicates;
-    /// otherwise <c>false</c>.
-    /// </returns>
-    public static bool MatchesAny(
-      this string s, IEnumerable<Func<string, bool>> predicates)
-    {
-      return (predicates ?? Enumerable.Empty<Func<string, bool>>())
-        .Any(p => (p ?? (_ => false))(s));
-    }
-
-    /// <summary>
-    /// Test if string matches any of the specified predicates.
-    /// </summary>
-    /// <param name="s">String to search.</param>
-    /// <param name="predicates">
-    /// <![CDATA[Func<string, bool>]]> predicate functions that perform the
-    /// match tests.
-    /// </param>
-    /// <returns>
-    /// <c>true</c> if string matches using at least one of the predicates;
-    /// otherwise <c>false</c>.
-    /// </returns>
-    public static bool MatchesAny(
-      this string s, params Func<string, bool>[] predicates)
-    {
-      return s.MatchesAny((IEnumerable<Func<string, bool>>)predicates);
-    }
   }
 }

@@ -7,8 +7,8 @@
 using System;
 using NUnit.Framework;
 
-namespace Ullet.Strix.Extensions.Tests.Unit.
-  StringExtensionsTests.MatchesAnyPredicatesTests
+namespace
+  Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.MatchesAnyTests
 {
   public class ParamsValuesParameter
   {
@@ -18,7 +18,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("Any old string".MatchesAny(), Is.False);
+        Assert.That(new object().MatchesAny(), Is.False);
       }
     }
 
@@ -39,8 +39,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       [Test]
       public void FalseIfPredicateIsNull()
       {
-        Assert.That(
-          "Any old string".MatchesAny((Func<string, bool>) null), Is.False);
+        Assert.That(7.0891m.MatchesAny((Func<decimal, bool>) null), Is.False);
       }
 
       [Test]
@@ -55,10 +54,9 @@ namespace Ullet.Strix.Extensions.Tests.Unit.
       [Test]
       public void FalseIfDoesNotMatchOnPredicate()
       {
-        const string str = "The String";
-        Func<string, bool> predicate = s => s.Length == 0;
+        Func<int, bool> even = x => x % 2 == 0;
 
-        Assert.That(str.MatchesAny(predicate), Is.False);
+        Assert.That(41.MatchesAny(even), Is.False);
       }
     }
 

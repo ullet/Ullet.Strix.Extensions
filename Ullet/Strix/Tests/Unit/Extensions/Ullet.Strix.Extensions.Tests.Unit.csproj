@@ -71,8 +71,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensionsTests\ContainsAnyTests\EnumerableValuesParameter.cs" />
     <Compile Include="StringExtensionsTests\ContainsAnyTests\ParamsValuesParameter.cs" />
-    <Compile Include="StringExtensionsTests\MatchesAnyPredicatesTests\EnumerableValuesParameter.cs" />
-    <Compile Include="StringExtensionsTests\MatchesAnyPredicatesTests\ParamsValuesParameter.cs" />
+    <Compile Include="GeneralExtensionsTests\MatchesAnyTests\EnumerableValuesParameter.cs" />
+    <Compile Include="GeneralExtensionsTests\MatchesAnyTests\ParamsValuesParameter.cs" />
     <Compile Include="StringExtensionsTests\MatchesAnyTests\EnumerableValuesParameter.cs" />
     <Compile Include="StringExtensionsTests\MatchesAnyTests\ParamsValuesParameter.cs" />
     <Compile Include="StringExtensionsTests\StartsWithAnyTests\EnumerablePrefixesParameter.cs" />

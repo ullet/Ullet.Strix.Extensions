@@ -9,8 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Ullet.Strix.Extensions.Tests.Unit.
-  StringExtensionsTests.MatchesAnyPredicatesTests
+namespace
+  Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.MatchesAnyTests
 {
   public class EnumerablePredicatesParameter
   {
