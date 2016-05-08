@@ -7,9 +7,10 @@
 using System;
 using NUnit.Framework;
 
-namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
+namespace
+  Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.MatchesAnyTests
 {
-  public class ParamsValuesParameter
+  public class ParamsPredicatesParameter
   {
     [TestFixture]
     public class WhenNoPredicates
@@ -17,7 +18,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(new object().IsAny(), Is.False);
+        Assert.That(new object().MatchesAny(), Is.False);
       }
     }
 
@@ -28,7 +29,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void AlwaysFalse()
       {
         Assert.That(
-          "Any old string".IsAny((Func<string, bool>[]) null), Is.False);
+          "Any old string".MatchesAny((Func<string, bool>[]) null), Is.False);
       }
     }
 
@@ -38,7 +39,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       [Test]
       public void FalseIfPredicateIsNull()
       {
-        Assert.That(7.0891m.IsAny((Func<decimal, bool>) null), Is.False);
+        Assert.That(7.0891m.MatchesAny((Func<decimal, bool>) null), Is.False);
       }
 
       [Test]
@@ -47,7 +48,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
         const string str = "The String";
         Func<string, bool> predicate = s => s.Length == 10;
 
-        Assert.That(str.IsAny(predicate), Is.True);
+        Assert.That(str.MatchesAny(predicate), Is.True);
       }
 
       [Test]
@@ -55,7 +56,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       {
         Func<int, bool> even = x => x % 2 == 0;
 
-        Assert.That(41.IsAny(even), Is.False);
+        Assert.That(41.MatchesAny(even), Is.False);
       }
     }
 
@@ -66,7 +67,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void FalseIfBothPredicatesAreNull()
       {
         Assert.That(
-          "Any old string".IsAny(
+          "Any old string".MatchesAny(
             (Func<string, bool>) null, (Func<string, bool>) null),
           Is.False);
       }
@@ -75,7 +76,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void NullForFirstPredicateIsIgnored()
       {
         Assert.That(
-          "Any old string".IsAny(
+          "Any old string".MatchesAny(
             (Func<string, bool>)null, (Func<string, bool>)(s => true)),
           Is.True);
       }
@@ -84,7 +85,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void NullForSecondPredicateIsIgnored()
       {
         Assert.That(
-          "Any old string".IsAny(
+          "Any old string".MatchesAny(
             (Func<string, bool>)(s => true), (Func<string, bool>)null),
           Is.True);
       }
@@ -96,7 +97,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
         Func<string, bool> predicate = s => s.Length == 10;
         Func<string, bool> otherPredicate = s => s.Length == 11;
 
-        Assert.That(str.IsAny(predicate, otherPredicate), Is.True);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.True);
       }
 
       [Test]
@@ -106,7 +107,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
         Func<string, bool> predicate = s => s.Length == 9;
         Func<string, bool> otherPredicate = s => s.Length == 10;
 
-        Assert.That(str.IsAny(predicate, otherPredicate), Is.True);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.True);
       }
 
       [Test]
@@ -116,7 +117,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
         Func<string, bool> predicate = s => s.Length == 10;
         Func<string, bool> otherPredicate = s => s.StartsWith("The");
 
-        Assert.That(str.IsAny(predicate, otherPredicate), Is.True);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.True);
       }
 
       [Test]
@@ -126,7 +127,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
         Func<string, bool> predicate = s => s.Length == 9;
         Func<string, bool> otherPredicate = s => s.StartsWith("A");
 
-        Assert.That(str.IsAny(predicate, otherPredicate), Is.False);
+        Assert.That(str.MatchesAny(predicate, otherPredicate), Is.False);
       }
     }
 
@@ -137,7 +138,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void FalseIfAllPredicatesAreNull()
       {
         Assert.That(
-          "Any old string".IsAny(
+          "Any old string".MatchesAny(
             (Func<string, bool>) null,
             (Func<string, bool>) null,
             (Func<string, bool>) null,
@@ -149,7 +150,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void AnyNullPredicatesAreIgnored()
       {
         Assert.That(
-          "Any old string".IsAny(
+          "Any old string".MatchesAny(
             (Func<string, bool>)null,
             (Func<string, bool>)null,
             (Func<string, bool>)(s => true),
@@ -164,7 +165,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void TrueIfMatchesOnAnyOfThePredicates(string str)
       {
         Assert.That(
-          str.IsAny(
+          str.MatchesAny(
             s => s.Length == 10,
             s => s.StartsWith("The"),
             s => s.EndsWith("ing"),
@@ -176,7 +177,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void TrueIfMatchesOnAllOfThePredicates()
       {
         Assert.That(
-          "The String".IsAny(
+          "The String".MatchesAny(
             s => s.Length == 10,
             s => s.StartsWith("The"),
             s => s.EndsWith("ing"),
@@ -188,7 +189,7 @@ namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
       public void FalseIfMatchesOnNoneOfThePredicates()
       {
         Assert.That(
-          "Throwin'".IsAny(
+          "Throwin'".MatchesAny(
             s => s.Length == 10,
             s => s.StartsWith("The"),
             s => s.EndsWith("ing"),

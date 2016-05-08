@@ -11,7 +11,7 @@ using FsCheck;
 using NUnit.Framework;
 using Ullet.Strix.Extensions.Tests.Unit.Support;
 
-namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyFsChecks
+namespace Ullet.Strix.Extensions.Tests.Unit.GeneralExtensionsTests.IsAnyTests
 {
   public abstract class EnumerablePredicatesParameter
   {
