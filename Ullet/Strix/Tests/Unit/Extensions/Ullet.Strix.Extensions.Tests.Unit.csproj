@@ -66,6 +66,8 @@
     <Compile Include="DelegateExtensions\NotTests.cs" />
     <Compile Include="DelegateExtensions\ToFuncTests.cs" />
     <Compile Include="DelegateExtensions\ToPredicateTests.cs" />
+    <Compile Include="GeneralExtensionsTests\IsAnyTests\EnumerableValuesParameter.cs" />
+    <Compile Include="GeneralExtensionsTests\IsAnyTests\ParamsValuesParameter.cs" />
     <Compile Include="GeneralExtensionsTests\MutateTests.cs" />
     <Compile Include="GeneralExtensionsTests\MutateWithObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

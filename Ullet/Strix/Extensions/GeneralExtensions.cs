@@ -114,5 +114,42 @@ namespace Ullet.Strix.Extensions
     {
       return t.MatchesAny((IEnumerable<Func<T, bool>>)predicates);
     }
+
+
+    /// <summary>
+    /// Test if object matches any of the specified predicates.
+    /// </summary>
+    /// <param name="t">Object to match.</param>
+    /// <param name="predicates">
+    /// <![CDATA[Func<string, bool>]]> predicate functions that perform the
+    /// match tests.
+    /// </param>
+    /// <typeparam name="T">Type of object being matched.</typeparam>
+    /// <returns>
+    /// <c>true</c> if object matches using at least one of the predicates;
+    /// otherwise <c>false</c>.
+    /// </returns>
+    public static bool IsAny<T>(this T t, IEnumerable<Func<T, bool>> predicates)
+    {
+      return t.MatchesAny(predicates);
+    }
+
+    /// <summary>
+    /// Test if object matches any of the specified predicates.
+    /// </summary>
+    /// <param name="t">Object to match.</param>
+    /// <param name="predicates">
+    /// <![CDATA[Func<string, bool>]]> predicate functions that perform the
+    /// match tests.
+    /// </param>
+    /// <typeparam name="T">Type of object being matched.</typeparam>
+    /// <returns>
+    /// <c>true</c> if object matches using at least one of the predicates;
+    /// otherwise <c>false</c>.
+    /// </returns>
+    public static bool IsAny<T>(this T t, params Func<T, bool>[] predicates)
+    {
+      return t.MatchesAny((IEnumerable<Func<T, bool>>)predicates);
+    }
   }
 }
