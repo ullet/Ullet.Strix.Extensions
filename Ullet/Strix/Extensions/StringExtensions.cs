@@ -29,6 +29,8 @@ namespace Ullet.Strix.Extensions
       this string s, IEnumerable<string> prefixes)
     {
       s = s ?? string.Empty;
+      prefixes = (prefixes ?? Enumerable.Empty<string>())
+        .Where(p => !string.IsNullOrEmpty(p));
       return s.MatchesAny((str, prefix) => str.StartsWith(prefix), prefixes);
     }
 
@@ -44,7 +46,7 @@ namespace Ullet.Strix.Extensions
     /// </returns>
     public static bool StartsWithAny(this string s, params string[] prefixes)
     {
-      return s.StartsWithOneOf((IEnumerable<string>)prefixes);
+      return s.StartsWithAny((IEnumerable<string>)prefixes);
     }
 
     /// <summary>

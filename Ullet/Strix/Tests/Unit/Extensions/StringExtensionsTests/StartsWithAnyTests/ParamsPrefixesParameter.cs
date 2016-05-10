@@ -4,6 +4,9 @@
  * UNLICENSE file accompanying this source code.
  */
 
+using System;
+using System.Linq;
+using FsCheck;
 using NUnit.Framework;
 
 namespace
@@ -17,17 +20,33 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("Any old string".StartsWithAny(), Is.False);
+        Prop.ForAll<string>(s => !s.StartsWithAny())
+          .QuickCheckThrowOnFailure();
       }
     }
 
     [TestFixture]
-    public class WhenNullPrefixes
+    public class WhenNullPrefixList
     {
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("Any old string".StartsWithAny((string[])null), Is.False);
+        Prop.ForAll<string>(s => !s.StartsWithAny((string[])null))
+          .QuickCheckThrowOnFailure();
+      }
+    }
+
+    [TestFixture]
+    public class WhenOnlyNullOrEmptyStringPrefixes
+    {
+      [Test]
+      public void AlwaysFalse()
+      {
+        Prop.ForAll<string>(
+          s => Prop.ForAll(
+            Arb.From(Gen.ArrayOf(Gen.Elements(null, ""))),
+            prefixes => !s.StartsWithAny(prefixes)))
+          .QuickCheckThrowOnFailure();
       }
     }
 
@@ -37,7 +56,8 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That("".StartsWithAny("A", "The", "It"), Is.False);
+        Prop.ForAll<string[]>(prefixes => !"".StartsWithAny(prefixes))
+          .QuickCheckThrowOnFailure();
       }
     }
 
@@ -47,7 +67,9 @@ namespace
       [Test]
       public void AlwaysFalse()
       {
-        Assert.That(((string)null).StartsWithAny("A", "The", "It"), Is.False);
+        Prop.ForAll<string[]>(
+          prefixes => !((string) null).StartsWithAny(prefixes))
+          .QuickCheckThrowOnFailure();
       }
     }
 
@@ -131,17 +153,28 @@ namespace
     }
 
     [TestFixture]
-    public class WhenMultiplePrefixes
+    public class WhenMultipleNonEmptyPrefixes
     {
-      [TestCase("The")]
-      [TestCase("A")]
-      [TestCase("Some")]
-      [TestCase("That")]
-      public void TrueIfStartsWithAnyOfThePrefixes(string actualPrefix)
+      [Test]
+      public void TrueIfStartsWithAnyOfThePrefixes()
       {
-        var str = actualPrefix + " String";
+        Func<string, bool> notEmpty = s => !string.IsNullOrEmpty(s);
+        Func<string[], string[]> removeEmptyStrings =
+          pfs => pfs.Where(notEmpty).ToArray();
+        Func<string[], bool> keepNonEmptyLists = a => a.Any();
+        var arbNonEmptyArrayOfNonEmptyStrings =
+          Arb.From<string[]>().MapFilter(removeEmptyStrings, keepNonEmptyLists);
+        Func<string[], Arbitrary<string>> arbPickOneFromArray =
+          a => Arb.From(Gen.Choose(0, a.Length - 1).Select(i => a[i]));
 
-        Assert.That(str.StartsWithAny("The", "A", "Some", "That"), Is.True);
+        Prop.ForAll(
+          arbNonEmptyArrayOfNonEmptyStrings,
+          prefixes =>
+            Prop.ForAll(
+              arbPickOneFromArray(prefixes),
+              prefix => Prop.ForAll<string>(
+                rest => (prefix + rest).StartsWithAny(prefixes))))
+          .QuickCheckThrowOnFailure();
       }
 
       [Test]
